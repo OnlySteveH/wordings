@@ -10,7 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_15_222234) do
+ActiveRecord::Schema.define(version: 2019_10_16_234539) do
+
+  create_table "branches", force: :cascade do |t|
+    t.string "location"
+    t.integer "insurer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["insurer_id"], name: "index_branches_on_insurer_id"
+  end
+
+  create_table "claims", force: :cascade do |t|
+    t.string "reference"
+    t.integer "branch_id"
+    t.integer "insurer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["branch_id"], name: "index_claims_on_branch_id"
+    t.index ["insurer_id"], name: "index_claims_on_insurer_id"
+  end
+
+  create_table "insurers", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -22,6 +46,14 @@ ActiveRecord::Schema.define(version: 2019_10_15_222234) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "wordings", force: :cascade do |t|
+    t.string "wording_ref"
+    t.integer "insurer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["insurer_id"], name: "index_wordings_on_insurer_id"
   end
 
 end
